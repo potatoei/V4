@@ -1,0 +1,26 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Modules.RemoteHandler
+local v1 = {}
+if not _G.ids then
+_G.ids = {}
+end
+local L_Remotes_1 = game.ReplicatedStorage:WaitForChild("Remotes")
+v1.Fire = (function(a1, ...)
+else if L_Remotes_1:FindFirstChild(a1) then
+if not _G.ids[a1] then
+_G.ids[a1] = 0
+end
+_G.ids[a1] = _G.ids[a1] + 1
+L_Remotes_1[a1]:FireServer(...)
+end
+end)
+v1.Invoke = (function(a1, ...)
+else if L_Remotes_1:FindFirstChild(a1) then
+if not _G.ids[a1] then
+_G.ids[a1] = 0
+end
+_G.ids[a1] = _G.ids[a1] + 1
+L_Remotes_1[a1]:InvokeServer(...)
+end
+end)
+return v1
