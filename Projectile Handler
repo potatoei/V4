@@ -1,0 +1,766 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Modules.ProjectileHandler
+local S_Debris_1 = game:GetService("Debris")
+local S_SoundService_2 = game:GetService("SoundService")
+local S_Workspace_3 = game:GetService("Workspace")
+local L_Modules_4 = game:GetService("ReplicatedStorage"):WaitForChild("Modules")
+local v1 = require(L_Modules_4.FastCastRedux)
+local u2 = require(L_Modules_4.Thread)
+local u3 = require(L_Modules_4.RemoteHandler)
+local u4 = game:GetService("ReplicatedStorage"):WaitForChild("Miscs").Projectiles
+v1.DebugLogging = false
+v1.VisualizeCasts = false
+v1.RayExit = true
+local u5 = v1.new()
+local u6 = (function(a1, a2) -- findFirstByClass
+local v1, v2, v3 = pairs(a1:children())
+for v4,v5 in v1 do
+else if v5:IsA(a2) then
+return v5
+end
+end
+return v1
+end)
+local u7 = (function(a1, a2, a3, a4, a5, a6) -- MakeImpactFX
+else if a1 ~= nil then
+if a2 ~= nil then
+if a3 ~= nil then
+local u1 = CFrame.new(a2, a2 + a3)
+local v2 = a5[1]
+if v2 then
+v2 = Instance.new
+local u3 = v2("Attachment")
+u3.CFrame = u1
+local v4 = S_Workspace_3
+u3.Parent = v4.Terrain
+local u5 = nil
+v4 = (function(a1) -- spawner2
+else if a5[6][a1.Name]:FindFirstChild("MaterialSounds") then
+local v1 = a5[6][a1.Name].MaterialSounds:GetChildren()[math.random(1, #a5[6][a1.Name].MaterialSounds:GetChildren())]
+if v1 ~= nil then
+u5 = v1:Clone()
+else if v1:FindFirstChild("Pitch") then
+local v2 = v1.Pitch
+local v3 = v2.Min
+v2 = v1.Pitch.Max
+v3 = v2.Value
+u5.PlaybackSpeed = Random.new():NextNumber(v3.Value, v3)
+end
+local v4 = v3[3]
+u5.PlaybackSpeed = Random.new():NextNumber(v4, v3)
+else if v1:FindFirstChild("Volume") then
+u5.Volume = 1
+u5.RollOffMinDistance = 5
+u5.RollOffMaxDistance = 50
+end
+u5.Volume = 1
+u5.RollOffMinDistance = 5
+u5.RollOffMaxDistance = 50
+u5.Parent = u3
+end
+u5 = Instance.new("Sound", v1)
+v2 = a5[2]
+u5.SoundId = v1 .. a5[2][math.random(v4, v3)]
+u5.PlaybackSpeed = Random.new():NextNumber(a5[3], a5[4])
+u5.Volume = 1
+u5.RollOffMinDistance = 5
+u5.RollOffMaxDistance = 50
+end
+local v5 = v1[6][v1]:GetChildren()
+for v6 = 1, #v5, v1 do
+local v7 = v5[v6]
+local v8 = v7.className
+if v8 == "ParticleEmitter" then
+v7 = v5[v6]
+local u9 = v7()
+v4 = u3
+u9.Parent = v4
+v2 = "EmitCount"
+v4 = v4(v2)
+else if v4 then
+v4 = u9.EmitCount
+v8 = v4.Value
+end
+v3 = u9.PartColor
+v4 = v3.Value
+if v4 then
+v3 = a1
+if v3 then
+v3 = a1
+v4 = v3.Color
+if not v4 then
+end
+v4 = Color3.fromRGB
+end
+v3 = a1
+else if v3 then
+v3 = a1
+v3 = v3("Terrain")
+else if v3 then
+v2 = S_Workspace_3
+v3 = v2.Terrain
+if not a4 then
+end
+end
+end
+local v10 = v3(v2, v4)
+u9.Color = v10
+end
+v2 = 0.01
+v4(v2, (function()
+u9:Emit(v8)
+S_Debris_1:AddItem(u9, u9.Lifetime.Max)
+end))
+end
+end
+u5:Play()
+if v1[1] then
+local u11 = Instance.new(v1)
+u11.Name = v1
+u11.Transparency = v1
+u11.Anchored = v1
+u11.Massless = v1
+u11.CanCollide = v1
+u11.FormFactor = v1
+u9 = 0.2
+u11.Size = v1
+u11.TopSurface = v1
+u11.BottomSurface = v1
+local v12 = v1(v6)
+v12.Offset = v6
+u9 = a5
+v8 = u9[6]
+u9 = a1.Name
+u9 = "MaterialHoleSize"
+else if v6 then
+v2 = a5
+v10 = v2[6]
+v2 = a1.Name
+u9 = v4.MaterialHoleSize
+v8 = u9.Value
+v2 = a5[6]
+v10 = v2[a1.Name]
+u9 = v4.Value
+v12.Scale = v6
+end
+v12.Scale = v6
+v12.Parent = u11
+local u13 = nil
+u9 = v4[6]
+v8 = v8(v4)
+else if v8 then
+v10 = a5
+v10 = a1.Name
+u9 = v4[v10]
+v8 = u9.MaterialDecals
+u9 = math.random
+v10 = #v8
+if v4 ~= nil then
+u13.Face = v10
+v2 = u13.PartColor
+if v10 then
+v2 = a1
+if v2 then
+v2 = a1
+if not v10 then
+end
+end
+v2 = a1
+else if v2 then
+v2 = a1
+v2 = v2("Terrain")
+else if v2 then
+v2 = S_Workspace_3.Terrain
+if not a4 then
+end
+end
+end
+u13.Color3 = v10
+end
+u13.Parent = u11
+end
+u13.Face = v8
+u13.Texture = v8
+u9 = a6
+if v8 then
+u9 = a1
+if u9 then
+u9 = a1
+if not v8 then
+end
+end
+u9 = a1
+else if u9 then
+u9 = a1
+u9 = u9(v10)
+else if u9 then
+u9 = v4.Terrain
+if not v10 then
+end
+end
+end
+u13.Color3 = v8
+end
+u13.Parent = u11
+end
+u11.Parent = v8
+u11.CFrame = v8
+if not v8 then
+local v14 = v8(u9)
+v14.Part0 = u11
+v14.Part1 = u9
+v14.Parent = u11
+u11.Anchored = u9
+u11.Massless = u9
+end
+if v14 == true then
+u11.Anchored = v14
+end
+v14(v4, v10)
+end
+end)
+if not a5[7] then
+if a1.Material == Enum.Material.Plastic then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Slate then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Concrete then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.CorrodedMetal then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.DiamondPlate then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Foil then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Marble then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Granite then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Brick then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Pebble then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.SmoothPlastic then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Metal then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Cobblestone then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Neon then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Wood then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.WoodPlanks then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Glass then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Grass then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Sand then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Fabric then
+v4(a1.Material)
+end
+if a1.Material == Enum.Material.Ice then
+v4(a1.Material)
+end
+v4(a5[6].Custom)
+end
+S_Debris_1:AddItem(u3, 10)
+end
+end
+end
+end
+end)
+local u8 = (function(a1, a2, a3, a4, a5) -- MakeBloodFX
+if a1 ~= nil then
+if a2 ~= nil then
+if a3 ~= nil then
+local v1 = a5[1]
+if v1 then
+v1 = Instance.new
+local u2 = v1("Attachment")
+u2.CFrame = CFrame.new(a2, a2 + a3)
+local v3 = S_Workspace_3
+u2.Parent = v3.Terrain
+v3 = "Sound"
+local u4 = Instance.new(v3, u2)
+local v5 = a5[2][math.random(1, #a5[2])]
+v3 = "rbxassetid://" .. v5
+u4.SoundId = v3
+v3 = Random.new
+v5 = a5[3]
+v3 = v3(v5, a5[4])
+u4.PlaybackSpeed = v3
+u4.Volume = v3
+v3 = (function() -- spawner3
+local v1 = a5[6]:GetChildren()
+for v2 = 1, #v1 do
+if v1[v2].className == "ParticleEmitter" then
+local u3 = v1[v2]:Clone()
+u3.Parent = u2
+else if u3:FindFirstChild("EmitCount") then
+local u4 = u3.EmitCount.Value
+end
+u2:Delay(0.01, (function()
+u3:Emit(u4)
+S_Debris_1:AddItem(u3, u3.Lifetime.Max)
+end))
+end
+end
+u4:Play()
+end)
+u2:Spawn(v3)
+S_Debris_1:AddItem(u2, 10)
+end
+if u2 then
+local u6 = u2(u4)
+u6.Name = u4
+u6.Transparency = u4
+u6.Anchored = u4
+u6.Massless = u4
+u6.CanCollide = u4
+u6.FormFactor = u4
+v5 = 0.2
+u6.Size = u4
+u6.TopSurface = u4
+u6.BottomSurface = u4
+local v7 = u4(v3)
+v7.Offset = v3
+v5 = a5[7]
+v5 = a5[7][2]
+v7.Scale = v3
+v7.Parent = u6
+local u8 = v3("Decal")
+u8.Face = Enum.NormalId.Front
+v5 = "rbxassetid://"
+u8.Texture = v5 .. a5[7][3][math.random(1, #a5[7][3])]
+v5 = a5[7]
+u8.Color3 = v5[4]
+v5 = a5[7]
+if v5[7] then
+else if a1 thenor not a1.Color 
+end
+if a1 then
+v5 = v5("Terrain")
+else if v5 then
+v5 = S_Workspace_3.Terrain
+if not a4 then
+end
+end
+end
+u8.Color3 = v5
+u8.Parent = u6
+u6.Parent = v5.CurrentCamera
+u6.CFrame = CFrame.new(a2, a2 + a3) * v5
+if not a1.Anchored then
+local v9 = Instance.new(v5)
+v9.Part0 = u6
+v9.Part1 = a1
+v9.Parent = u6
+u6.Anchored = v5
+u6.Massless = v5
+if v5 == true then
+u6.Anchored = v5
+end
+end
+v9(a5[7][5], (function()
+if 0 < a5[7][5] then
+u8.Transparency = 0 + 1 * math.min(tick() - tick() / a5[7][6], 1)
+while math.min(tick() - tick() / a5[7][6], 1) ~= 1 do
+game:GetService("RunService").Heartbeat:Wait()
+end
+u6:Destroy()
+return
+end
+u6:Destroy()
+end))
+end
+end
+end
+end
+end)
+local u9 = (function(a1, a2, a3, a4, a5, a6, a7, a8) -- CanRayPenetrate
+if a3 ~= nil then
+if a3.Parent ~= nil or a8[6] ~= nil thenand a3.Name == "_glass" 
+u3.Fire("ShatterGlass", a3, a4, a2)
+return "penetratedObject"
+end
+local u1 = a4 - a1.Magnitude
+local u2 = u6(a3.Parent, "Humanoid")
+else if not a3.Parent:FindFirstChild("HumanoidRootPart") then
+local L_Head_1 = a3.Parent:FindFirstChild("Head")
+end
+local L__2 = game.Players:GetPlayerFromCharacter(a8[5].Parent)
+else if u2 then
+if 0 < u2.Health then
+if L_Head_1 then
+u8(a3, a4, a5, a6, a8[4])
+if a8[6] ~= nil then
+if 0 < u2.Health then
+u2:Spawn((function()
+u3.Invoke("InflictTarget", a8[7], a8[5], L__2, u2, L_Head_1, {a8[6][1][1], a8[6][1][2], a8[6][1][3], u1, a8[6][1][4], a8[6][1][5], a8[6][1][6]}, {a8[6][2][1], a8[6][2][2], a8[6][2][3], a8[6][2][4], a8[6][2][5], a8[6][2][6], a8[6][2][7], a8[6][2][8]}, {a8[6][3][1], a8[6][3][2], a8[6][3][3]}, a3, {a8[6][4][1], a8[6][4][2], a8[6][4][3], a8[6][4][4], a8[6][4][5], a8[6][4][6], a8[6][4][7]})
+end))
+if a3.Name == "Head" then
+end
+a8[5].GunScript_Local:FindFirstChild("MarkerEvent"):Fire(a8[6][1][3])
+end
+end
+return "penetratedHumanoid"
+end
+end
+end
+u7(a3, a4, a5, a6, a8[2], a8[3])
+return "penetratedObject"
+end
+end)
+local u10 = (function(a1, a2, a3, a4, a5, a6, a7, a8, a9) -- CanRayPenetrateHumanoid
+if a3 ~= nil then
+if a3.Parent ~= nil then
+if 0.99 > a3.Transparency then
+if string.lower(a3.Name) ~= "water" then
+else if string.lower(a3.Name) ~= "Handle" and a3.CanCollide ~= false 
+else if a3.Parent:FindFirstChild("Humanoid") then
+if a3.Parent.Humanoid.Health == 0 then
+end
+end
+return true
+end
+end
+local u1 = a4 - a1.Magnitude
+local u2 = u6(a3.Parent, "Humanoid")
+else if not a3.Parent:FindFirstChild("HumanoidRootPart") then
+local L_Head_1 = a3.Parent:FindFirstChild("Head")
+end
+local L__2 = game.Players:GetPlayerFromCharacter(a9[5].Parent)
+else if u2 then
+if 0 < u2.Health then
+if L_Head_1 then
+if 0 < a8 then
+u8(a3, a4, a5, a6, a9[4])
+if a9[6] ~= nil then
+if 0 < u2.Health then
+u2:Spawn((function()
+u3.Invoke("InflictTarget", a9[7], a9[5], L__2, u2, L_Head_1, {a9[6][1][1], a9[6][1][2], a9[6][1][3], u1, a9[6][1][4], a9[6][1][5], a9[6][1][6]}, {a9[6][2][1], a9[6][2][2], a9[6][2][3], a9[6][2][4], a9[6][2][5], a9[6][2][6], a9[6][2][7], a9[6][2][8]}, {a9[6][3][1], a9[6][3][2], a9[6][3][3]}, a3, {a9[6][4][1], a9[6][4][2], a9[6][4][3], a9[6][4][4], a9[6][4][5], a9[6][4][6], a9[6][4][7]})
+end))
+if a3.Name == "Head" then
+end
+a9[5].GunScript_Local:FindFirstChild("MarkerEvent"):Fire(a9[6][1][3])
+end
+end
+end
+return true
+end
+end
+end
+end
+end
+return u1
+end)
+local v11 = (function(a1, a2, a3, a4, a5, a6, a7, a8, a9) -- OnRayUpdated
+if a7[1] then
+local v1 = CFrame.new(0, 0, -a4 - a6.Size.Z / 2)
+v1 = CFrame.Angles
+v1 = v1(0(-360 * tick() * a7[2] - tick()(tick() * a7[2])), -360 * tick() * a7[2] - tick()(tick() * a7[2])(-360 * tick() * a7[3] - tick()(tick() * a7[3])), -360 * tick() * a7[3] - tick()(tick() * a7[3])(-360 * tick() * a7[4] - tick()(tick() * a7[4])))
+a6.CFrame = CFrame.new(a2, a2 + a3) * v1 * v1
+end
+a6.CFrame = CFrame.new(a2, a2 + a3) * CFrame.new(v1, 0, -a4 - a6.Size.Z / 2)
+else if a9[6] == nil or a8[1] 
+if a6.Parent then
+v1 = "Whizzed"
+else if a6:FindFirstChild(v1) then
+v1 = "Whizzed"
+local L_Whizzed_1 = a6:FindFirstChild(v1)
+if not L_Whizzed_1.Value then
+v1 = S_Workspace_3.CurrentCamera.CFrame.p - a6.Position
+v1 = a8[5]
+if v1.magnitude < v1 then
+v1 = Instance.new
+local v2 = v1("Sound")
+v2.SoundId = "rbxassetid://" .. a8[2][math.random(1, #a8[2])]
+v2.Volume = a8[6]
+v2.PlaybackSpeed = Random.new():NextNumber(a8[3], a8[4])
+v2.Name = "WhizSound_Clone"
+v2.Parent = S_SoundService_2
+v2:Play()
+S_Debris_1:AddItem(v2, v2.TimeLength / v2.PlaybackSpeed)
+L_Whizzed_1.Value = true
+end
+end
+end
+end
+end)
+u5.LengthChanged:Connect(v11)
+local v12 = (function(a1, a2, a3, a4, a5, a6, a7, a8, a9) -- OnRayHit
+a8.Transparency = 1
+local v1, v2, v3 = pairs(a8:GetDescendants())
+for v4,v5 in v1 do
+else if not v5:IsA("BasePart") then
+else if not v5:IsA("Decal") then
+else if v5:IsA("Texture") then
+end
+end
+v5.Transparency = 1
+continue
+end
+else if v5:IsA("ParticleEmitter") then
+v5.Enabled = false
+continue
+end
+else if v5:IsA("Sound") then
+v5:Stop()
+continue
+end
+else if v5:IsA("PointLight") then
+v5.Enabled = false
+continue
+end
+else if v5:IsA("Beam") then
+v5.Enabled = false
+end
+end
+v1(v3, v4)
+local v6 = v2[1]
+if not v6 then
+if a3 ~= nil then
+v6 = a3.Parent
+if v6 ~= nil 
+v6 = a9[6]or v6 ~= nil 
+v6 = a3.Nameand v6 == "_glass" 
+v6 = v2.Fire
+v6(v2, v3, v4, v5)
+return
+local u7 = v2.Magnitude
+local u8 = v2(v3, v4)
+local L_HumanoidRootPart_1 = v3(v5)
+else if not L_HumanoidRootPart_1 then
+L_HumanoidRootPart_1 = a3.Parent
+local L_Head_2 = L_HumanoidRootPart_1(v5)
+end
+local v9 = a9[5]
+local L__3 = v4(v9.Parent)
+else if u8 then
+if 0 < v5 then
+if L_Head_2 then
+v5(a3, v9, a5, a6, a9[4])
+if v5 ~= nil then
+if 0 < v5 then
+v9 = (function()
+u3.Invoke("InflictTarget", a9[7], a9[5], L__3, u8, L_Head_2, {a9[6][1][1], a9[6][1][2], a9[6][1][3], u7, a9[6][1][4], a9[6][1][5], a9[6][1][6]}, {a9[6][2][1], a9[6][2][2], a9[6][2][3], a9[6][2][4], a9[6][2][5], a9[6][2][6], a9[6][2][7], a9[6][2][8]}, {a9[6][3][1], a9[6][3][2], a9[6][3][3]}, a3, {a9[6][4][1], a9[6][4][2], a9[6][4][3], a9[6][4][4], a9[6][4][5], a9[6][4][6], a9[6][4][7]})
+end)
+v5(v9)
+v9 = "MarkerEvent"
+v9 = false
+if a3.Name == "Head" then
+v9 = a9[6][1][3]
+end
+v5(v9)
+return
+end
+end
+end
+v5(a3, v9, a5, a6, a9[2], a9[3])
+return
+end
+u7 = u8[3]
+if u7 then
+u7 = Instance.new
+local v10 = u7(u8)
+v10.CFrame = u8
+L_Head_2 = S_Workspace_3
+v10.Parent = u8
+L_Head_2 = "Sound"
+local v11 = u8(L_Head_2)
+L__3 = "rbxassetid://"
+v9 = a9[1]
+v9 = math.random
+v9 = v9(1, #a9[1][4])
+L_Head_2 = L__3 .. v5
+v11.SoundId = L_Head_2
+L_Head_2 = Random.new
+v9 = a9[1]
+L_Head_2 = L_Head_2(v5, v9[6])
+v11.PlaybackSpeed = L_Head_2
+v11.Volume = L_Head_2
+v11.RollOffMinDistance = L_Head_2
+v11.RollOffMaxDistance = L_Head_2
+v11.Parent = v10
+L_Head_2()
+L_Head_2 = S_Debris_1
+L_Head_2(v5, 10)
+end
+local u12 = v10(v11)
+u12.BlastRadius = v11
+u12.BlastPressure = v11
+u12.ExplosionType = v11
+if a4 ~= nil then
+if not v11 then
+end
+end
+u12.Position = v11
+L_Head_2 = S_Workspace_3
+u12.Parent = v11
+if a3 ~= nil then
+if a4 ~= nil then
+if a5 ~= nil then
+L__3 = a4 + a5
+if not v11 then
+else if a3 ~= nil then
+if a4 ~= nil then
+if a5 ~= nil then
+L__3 = a9[1]
+L_Head_2 = L__3[11]
+if L_Head_2 then
+if a3 then
+L_Head_2 = a3.Parentor L_Head_2 
+end
+end
+L_Head_2 = u6
+L__3 = a3.Parent
+L_Head_2 = L_Head_2(L__3, v5)
+if not L_Head_2 then
+L_Head_2 = Instance.new
+L__3 = "Part"
+local u13 = L_Head_2(L__3)
+L__3 = "ExplosionCrater"
+u13.Name = L__3
+u13.Transparency = L__3
+L__3 = true
+u13.Anchored = L__3
+L__3 = true
+u13.Massless = L__3
+L__3 = false
+u13.CanCollide = L__3
+L__3 = "Custom"
+u13.FormFactor = L__3
+v9 = 0.2
+L__3 = L__3(v5, 1, v9)
+u13.Size = L__3
+u13.TopSurface = L__3
+u13.BottomSurface = L__3
+L__3 = Instance.new
+local v14 = L__3(v5)
+v14.Offset = v5
+v9 = a9[1]
+v9 = a9[1][12]
+v14.Scale = v5
+v14.Parent = u13
+local u15 = v5("Decal")
+u15.Face = Enum.NormalId.Front
+v9 = "rbxassetid://"
+u15.Texture = v9 .. a9[1][13][math.random(1, #a9[1][13])]
+v9 = a9[1]
+if v9[14] then
+else if a3 thenor not a3.Color 
+end
+if a3 then
+v9 = v9("Terrain")
+else if v9 then
+v9 = S_Workspace_3.Terrain
+if not a6 then
+end
+end
+end
+u15.Color3 = v9
+end
+u15.Parent = u13
+u13.Parent = v9.CurrentCamera
+u13.CFrame = v11 * v9
+if not a3.Anchored then
+local v16 = Instance.new(v9)
+v16.Part0 = u13
+v16.Part1 = a3
+v16.Parent = u13
+u13.Anchored = v9
+u13.Massless = v9
+if v9 == true then
+u13.Anchored = v9
+end
+end
+v16(a9[1][15], (function()
+if 0 < a9[1][15] then
+u15.Transparency = 0 + 1 * math.min(tick() - tick() / a9[1][16], 1)
+while math.min(tick() - tick() / a9[1][16], 1) ~= 1 do
+game:GetService("RunService").Heartbeat:Wait()
+end
+u13:Destroy()
+return
+end
+u13:Destroy()
+end))
+end
+end
+end
+end
+v14 = a9[1]
+u13 = v14[8]
+if u13 then
+u13 = false
+u12.Visible = u13
+u13 = Instance.new
+v14 = "Attachment"
+local u17 = u13(v14)
+u17.CFrame = v11
+v14 = u15.Terrain
+u17.Parent = v14
+v14 = (function() -- spawner4
+local v1 = a9[1][9]:GetChildren()
+for v2 = 1, #v1 do
+if v1[v2].className == "ParticleEmitter" then
+local u3 = v1[v2]:Clone()
+u3.Parent = u17
+else if u3:FindFirstChild("EmitCount") then
+local u4 = u3.EmitCount.Value
+end
+u2:Delay(0.01, (function()
+u3:Emit(u4)
+S_Debris_1:AddItem(u3, u3.Lifetime.Max)
+end))
+end
+end
+end)
+u15(v9)
+u15(v9, 10)
+end
+u17(u15)
+end
+end
+end
+end)
+u5.RayHit:Connect(v12)
+local v13 = (function(a1, a2, a3, a4, a5, a6, a7, a8) -- OnRayExited
+if a3.Name == "_glass" then
+return
+end
+else if not a3.Parent:FindFirstChild("HumanoidRootPart") then
+else if u6(a3.Parent, "Humanoid") then
+if 0 < u6(a3.Parent, "Humanoid").Health then
+if a3.Parent:FindFirstChild("Head") then
+u8(a3, a4, a5, a6, a8[4])
+return
+end
+end
+end
+u7(a3, a4, a5, a6, a8[2], a8[3])
+end)
+u5.RayExited:Connect(v13)
+return {SimulateProjectile = (function(a1, a2, a3, a4, a5, a6, a7, a8,
