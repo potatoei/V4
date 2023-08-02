@@ -1,0 +1,26 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Modules.Thread
+local v1 = {}
+local S_RunService_1 = game:GetService("RunService")
+v1.Wait = (function(a1, a2) -- Wait
+if a2 ~= nil then
+while true do
+if 0 + S_RunService_1.Heartbeat:Wait() < a2 then
+end
+return
+end
+S_RunService_1.Heartbeat:Wait()
+end
+end)
+v1.Spawn = (function(a1, a2) -- Spawn
+Instance.new("BindableEvent").Event:connect(a2)
+Instance.new("BindableEvent"):Fire()
+Instance.new("BindableEvent"):Destroy()
+end)
+v1.Delay = (function(a1, a2, a3) -- Delay
+a1:Spawn((function()
+a1:Wait(a2)
+a3()
+end))
+end)
+return v1
