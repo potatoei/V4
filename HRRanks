@@ -1,0 +1,8 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Shared.Data.HRRanks
+local v1 = {}
+v1[2784915358] = "Founder"
+v1[52562955] = "Overseer"
+v1[536235414] = "Director of Task Forces"
+return v1
+-- CHANGE THE NUMBERS
