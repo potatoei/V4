@@ -1,0 +1,39 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Modules.FastCastRedux.Signal
+return {CreateNewSignal = (function(a1) -- CreateNewSignal
+local v1 = {}
+local u2 = Instance.new("BindableEvent")
+local u3 = {}
+v1.connect = (function(a1, a2) -- connect
+if typeof() ~= "function" then
+error("Argument #1 of Connect must be a function, got a " .. typeof(), 2)
+end
+local L_a2_1 = u2.Event:Connect(a2)
+u3[L_a2_1] = true
+local v1 = {}
+v1.disconnect = (function(a1) -- disconnect
+L_a2_1:Disconnect()
+u3[L_a2_1] = nil
+end)
+v1.Disconnect = v1.disconnect
+return v1
+end)
+v1.disconnectAll = (function(a1) -- disconnectAll
+local v1, v2, v3 = pairs(u3)
+for v4,v5 in v1 do
+v4:Disconnect()
+u3[v4] = nil
+end
+end)
+v1.wait = (function(a1) -- wait
+return u2.Event:Wait()
+end)
+v1.fire = (function(a1, ...) -- fire
+u2:Fire(...)
+end)
+v1.Connect = v1.connect
+v1.DisconnectAll = v1.disconnectAll
+v1.Wait = v1.wait
+v1.Fire = v1.fire
+return v1
+end)}
