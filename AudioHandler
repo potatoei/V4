@@ -1,0 +1,66 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Modules.AudioHandler
+local u1 = workspace.CurrentCamera
+local u2 = require(game:GetService("ReplicatedStorage"):WaitForChild("Modules").RemoteHandler)
+local u3 = {}
+return {PlayAudio = (function(a1, a2, a3, a4) -- PlayAudio
+local v1 = Instance.new("Sound")
+v1.SoundId = a2.SoundId
+v1.EmitterSize = a2.EmitterSize or 10
+v1.MaxDistance = a2.MaxDistance or 10000
+v1.Volume = a2.Volume or 1
+v1.PlaybackSpeed = a2.Pitch or 1
+v1.Name = "firesound"
+v1.Parent = a2.Muzzle
+local v2 = nil
+local v3 = a2.Echo
+if v3 then
+v3 = math.min
+if 50 < v3 then
+local v4 = Instance.new("Sound")
+v2.SoundId = v4
+v2.Volume = v4
+v2.RollOffMaxDistance = v4
+v2.RollOffMinDistance = v4
+v2.EmitterSize = v4
+v2.Parent = v4
+v4(v2, 3)
+v1.Pitch = v4
+local v5 = v4("EqualizerSoundEffect")
+v5.LowGain = 0
+v5.MidGain = v3 / 175 * 10
+v5.HighGain = 0
+v5.Parent = v1
+end
+v3 = a2.Silenced
+if v3 then
+v3 = v1.PlaybackSpeed
+v1.PlaybackSpeed = v3
+end
+v3()
+v3(v1, v1.TimeLength / v1.PlaybackSpeed)
+else if v2 then
+v3()
+end
+v3 = a3.Enabled
+if v3 then
+v3 = a3.CurrentAmmo
+if v3 <= v5 then
+v3 = Instance.new
+local v6 = v3(v5)
+v6.SoundId = v5
+v6.EmitterSize = v5
+v6.MaxDistance = v5
+v6.Volume = v5
+if not v5 then
+end
+v6.PlaybackSpeed = v5
+v6.Name = v5
+v6.Parent = v5
+v5()
+v5(v6, v6.TimeLength / v6.PlaybackSpeed)
+end
+else if a4 then
+v6(v5, a2, a3, nil)
+end
+end)}
