@@ -1,0 +1,28 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Modules.SmokeTrail
+local u1 = require(game.ReplicatedStorage.Modules.Thread)
+local v2 = {}
+local u3 = false
+local u4 = false
+v2.EmitSmokeTrail = (function(a1, a2, a3) -- EmitSmokeTrail
+
+while true dou3 = true
+if not u4 then
+if a3 <= tick() - tick() then
+end
+u3 = false
+u4 = false
+break
+end
+a2.Enabled = true
+u1:Wait()
+end
+u3 = false
+a2.Enabled = false
+end)
+v2.StopEmission = (function(a1) -- StopEmission
+if u3 == true then
+u4 = true
+end
+end)
+return v2
