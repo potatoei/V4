@@ -1,0 +1,38 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Modules.ScreenCulling
+local u1 = game:GetService("Workspace").CurrentCamera
+local u2 = nil
+local u3 = nil
+local u4 = nil
+local u5 = nil
+local u6 = nil
+local u7 = nil
+local u8 = nil
+local u9 = nil
+local u10 = nil
+UpdateScreenCulling = (function(a1, a2, a3) -- UpdateScreenCulling
+u2 = a1
+u3 = a2
+u4 = a3 * math.pi / 180 / 2
+u6 = u3.Y
+u5 = u3.X
+u8 = u3.X(u4)
+u7 = u5 / u6 * u8
+u10 = 1 + u8 * u8 ^ 0.5
+u9 = 1 + u7 * u7 ^ 0.5
+end)
+UpdateScreenCulling(u1.CFrame, u1.ViewportSize, u1.FieldOfView)
+game:GetService("RunService").RenderStepped:Connect((function(a1)
+UpdateScreenCulling(u1.CFrame, u1.ViewportSize, u1.FieldOfView)
+end))
+return (function(a1, a2)
+local v1 = CFrame.new().pointToObjectSpace(u2, a1)
+if --v1.Z * u7 < v1.X + u9 * a2 then
+if v1.X - u9 * a2 < -v1.Z * u7 then
+if --v1.Z * u8 < v1.Y + u10 * a2 then
+else if v1.Y - u10 * a2 < -v1.Z * u8 or -a2 > -v1.Z 
+end
+end
+end
+return true
+end)
