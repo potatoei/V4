@@ -1,0 +1,47 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Modules.ProjectileMotion
+local u1 = {}
+u1.calculateBeamProjectile = (function(a1, a2, a3, a4) -- calculateBeamProjectile
+if not a4 then
+end
+local v1 = a4(0, 0, 0)
+local v2 = 0.5 * a4 * a3 * a3 + a2 * a3 + a1
+local v3 = 0.125 * a4 * a3 * a3 + 0.5 * a2 * a3 + a1 - 0.125 * a1 + v2 / 0.375 - v2 - a4 * a3 * a3 + a2 * a3 / 3 - a1.unit
+local v4 = a1 - v2.unit
+local v5 = v3:Cross(v4).unit
+local v6 = v2 - a4 * a3 * a3 + a2 * a3 / 3 - v2.unit
+local v7 = v6:Cross(v4).unit
+local v8 = v5:Cross(v3).unit
+local v9 = 0.125 * a4 * a3 * a3 + 0.5 * a2 * a3 + a1 - 0.125 * a1 + v2 / 0.375 - v2 - a4 * a3 * a3 + a2 * a3 / 3 - a1.magnitude
+local v10 = CFrame.new(a1.x, a1.y, a1.z, v3.x, v5.x, v8.x, v3.y, v5.y, v8.y, v3.z, v5.z, v8.z)
+local v11 = CFrame.new(v2.x, v2.y, v2.z, v6.x, v7.x, v8.x, v6.y, v7.y, v8.y, v6.z, v7.z, v8.z)
+return v9, -v2 - a4 * a3 * a3 + a2 * a3 / 3 - v2.magnitude, v10, v11
+end)
+u1.showProjectilePath = (function(a1, a2, a3, a4, a5) -- showProjectilePath
+else if not a5 then
+end
+local v1 = a5(0, 0, 0)
+local v2 = v1("Attachment", workspace.Terrain)
+local v3 = Instance.new("Attachment", workspace.Terrain)
+local v4 = a1:Clone()
+v4.Attachment0 = v2
+v4.Attachment1 = v3
+v4.Parent = workspace.Terrain
+local v5, v6, v7, v8 = u1.calculateBeamProjectile(a2, a3, a4, a5)
+v4.CurveSize0 = v5
+v4.CurveSize1 = v6
+v2.CFrame = v2.Parent.CFrame:inverse() * v7
+v3.CFrame = v3.Parent.CFrame:inverse() * v8
+return v4, v2, v3
+end)
+u1.updateProjectilePath = (function(a1, a2, a3, a4, a5, a6, a7) -- updateProjectilePath
+if not a7 then
+end
+local v1 = a7(0, 0, 0)
+local v2, v3, v4, v5 = v1(a4, a5, a6, a7)
+a1.CurveSize0 = v2
+a1.CurveSize1 = v3
+a2.CFrame = a2.Parent.CFrame:inverse() * v4
+a3.CFrame = a3.Parent.CFrame:inverse() * v5
+end)
+return u1
