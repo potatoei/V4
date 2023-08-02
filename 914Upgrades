@@ -1,0 +1,11 @@
+local v1 = {}
+v1.Level 1 = "Level 2"
+v1.Level 2 = "Level 3"
+v1.Level 3 = "Level 4"
+v1.Glock 22 = "P90"
+v1.P90 = "Honey Badger"
+v1.P90s = "Kriss Vector"
+v1.Card = "Pizza Slice"
+v1.Pizza Slice = "Card"
+v1.Brush = "Medkit"
+return v1
