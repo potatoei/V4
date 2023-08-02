@@ -1,0 +1,889 @@
+
+local v1 = {}
+v1.DebugLogging = false
+v1.VisualizeCasts = false
+v1.RayExit = false
+v1.__index = v1
+local S_RunService_1 = game:GetService("RunService")
+local S_Workspace_2 = game:GetService("Workspace")
+local u2 = require(script:WaitForChild("Signal"))
+local u3 = require(script:WaitForChild("Table"))
+else if S_RunService_1:IsClient() then
+end
+local u4 = {}
+local u5 = {}
+DbgVisualizeSegment = (function(a1, a2) -- DbgVisualizeSegment
+if v1.VisualizeCasts ~= true then
+return
+end
+local v1 = Instance.new("ConeHandleAdornment")
+v1.Adornee = S_Workspace_2.Terrain
+v1.CFrame = a1
+v1.Height = a2
+v1.Color3 = Color3.new()
+v1.Radius = 0.25
+v1.Transparency = 0.5
+local L_FastCastVisualizationObjects_1 = S_Workspace_2.Terrain:FindFirstChild("FastCastVisualizationObjects")
+if L_FastCastVisualizationObjects_1 ~= nil then
+end
+local v2 = Instance.new("Folder")
+L_FastCastVisualizationObjects_1.Name = v2
+L_FastCastVisualizationObjects_1.Archivable = v2
+L_FastCastVisualizationObjects_1.Parent = v2
+v1.Parent = L_FastCastVisualizationObjects_1
+return v1
+end)
+DbgVisualizeHit = (function(a1, a2) -- DbgVisualizeHit
+if v1.VisualizeCasts ~= true then
+return
+end
+local v1 = Instance.new("SphereHandleAdornment")
+v1.Adornee = S_Workspace_2.Terrain
+v1.CFrame = a1
+v1.Radius = 0.4
+v1.Transparency = 0.25
+v1.Color3 = a2
+local L_FastCastVisualizationObjects_1 = S_Workspace_2.Terrain:FindFirstChild("FastCastVisualizationObjects")
+if L_FastCastVisualizationObjects_1 ~= nil then
+end
+local v2 = Instance.new("Folder")
+L_FastCastVisualizationObjects_1.Name = v2
+L_FastCastVisualizationObjects_1.Archivable = v2
+L_FastCastVisualizationObjects_1.Parent = v2
+v1.Parent = L_FastCastVisualizationObjects_1
+return v1
+end)
+local u6 = (function(a1, a2, a3, a4) -- Cast
+local v1 = Ray.new(a1, a2)
+return S_Workspace_2:FindPartOnRay(v1, a3, false, a4)
+end)
+local u7 = (function(a1, a2, a3, a4) -- CastWithWhitelist
+if a3 then
+local v1 = typeof()
+if v1 ~= "table" then
+end
+v1 = error
+v1("Call in CastWhitelist failed! Whitelist table is either nil, or is not actually a table.", 0)
+end
+return S_Workspace_2:FindPartOnRayWithWhitelist(v1, a3, a4)
+end)
+local u8 = (function(a1, a2, a3, a4) -- CastWithBlacklist
+if a3 then
+local v1 = typeof()
+if v1 ~= "table" then
+end
+v1 = error
+v1("Call in CastBlacklist failed! Blacklist table is either nil, or is not actually a table.", 0)
+end
+return S_Workspace_2:FindPartOnRayWithIgnoreList(v1, a3, false, a4)
+end)
+local u9 = (function(a1, a2, a3, a4) -- CastWithBlacklistAndNoHumPenetration
+if a3 then
+local v1 = typeof()
+if v1 ~= "table" then
+end
+v1 = error
+v1("Call in CastBlacklist failed! Blacklist table is either nil, or is not actually a table.", 0)
+end
+local v2 = nil
+local v3 = (0, 1, 0)repeat
+
+local v4, v5, v6, v7 = S_Workspace_2:FindPartOnRayWithIgnoreList(v1, a3, false, a4)
+if v2 then
+if v5 > v4 then
+else if v4 ~= "Handle" and v4 ~= "Bullet" 
+if v4 ~= "water" then
+else if v4 then
+if v4 ~= 0 then
+end
+else if v4 then
+else if not v4 then
+else if not v4 then
+end
+else if v4 then
+else if not v4 then
+else if not v4 then
+end
+else if v4 then
+else if not v4 then
+else if v4 then
+end
+end
+end
+end
+end
+end
+end
+end
+v4(v5, v6)
+end
+end
+end
+until v3
+return v2, v5, v6, v7
+end)
+local u10 = (function(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15) -- SimulateCast
+if v1.DebugLogging == true then
+print("Cast simulation requested.")
+end
+if type("Cast simulation requested.") == "number" then
+end
+else if a15 ~= nil then
+local u1 = a15.penetrationDepth
+if not u1 then
+else if a15 ~= nil then
+local u2 = a15.penetrationAmount
+if not u2 then
+end
+end
+else if not a11 then
+local u3 = a11()
+end
+local u4 = a2.Magnitude
+local u5 = a3.Magnitude
+local u6 = a2.Unit + a3.Unit * u5
+local u7 = {}
+local u8 = false
+local u9 = false
+local u10 = (function(a1, a2) -- Fire
+local v1 = v1.DebugLogging
+if v1 == true then
+v1 = print
+v1("Casting for frame.")
+end
+v1 = u5 + a1
+u5 = v1
+if not v1 then
+local v2 = u3
+local v3 = v2.X
+local v4 = v3 * u5 ^ 2
+local v5 = v4 / 2
+local v6 = u5 ^ 2
+v3 = v2.Y * v6
+v4 = v3 / 2
+v6 = v2.Z
+v3 = v6 * u5 ^ 2 / 2
+v4 = u6 * u5
+v5 = a1 + v4
+v1 = v5 + (v5, v4, v3)
+end
+local v7 = v2 * a1
+local v8, v9, v10, v11 = v2(, v5, v4, v3)
+v6 = 
+local v12 = v2 + v5
+local v13 = a12
+local v14 = a13
+local v15 = a14
+a5:Fire(a1, , v7.Unit, v3, v12, a8, v13, v14, v15)
+if v6 < a1 then
+v6 = DbgVisualizeSegment
+local v16 = 
+local v17 = v16 + v7
+end
+if v8 then
+if v8 ~= v6 then
+v16 = v8.Size
+v17 = v16.Magnitude
+v13 = v9 + v17 * v7.Unit
+v14 = -v17 * v7.Unit
+v15 = {}
+local v18 = a10
+if v15 then
+local v19 = typeof()
+if v19 ~= "table" then
+end
+v19 = error
+v19("Call in CastWhitelist failed! Whitelist table is either nil, or is not actually a table.", 0)
+end
+local v20, v21, v22, v23 = S_Workspace_2:FindPartOnRayWithWhitelist(v19, v15, v18)
+local v24 = a15
+if v24 ~= nil then
+v15 = a15
+v24 = v15.penetrationType
+if v24 == "WallPenetration" then
+v15 = a15
+v24 = v15.canPenetrateFunction
+if v24 ~= nil 
+v24 = u1or v13 > v24 
+end
+v15 = a15
+v24 = v15.penetrationType
+if v24 == "HumanoidPenetration" then
+v15 = a15
+v24 = v15.canPenetrateHumanoidFunction
+if v24 ~= nil then
+v24 = u2
+if v15 < v24 then
+v24 = u8
+if v24 then
+v24 = error
+v15 = "ERROR: The latest call to canPenetrateFunction/canPenetrateHumanoidFunction took too long to complete! This cast is going to suffer desyncs which WILL cause unexpected behavior and errors."
+v24(v15)
+end
+u8 = v24
+u9 = v24
+v24 = a15
+else if v24 ~= nil then
+v24 = a15or v24 ~= nil 
+v15 = a15
+v24 = v15.penetrationType
+if v24 == "WallPenetration" then
+v24 = u1or v24 > v13 
+end
+v15 = a15
+v24 = v15.penetrationType
+if v24 == "HumanoidPenetration" then
+v15 = a15
+v24 = v15.canPenetrateHumanoidFunction
+v15 = a1
+v18 = v7.Unit
+v24 = v24(v15, v18, v19, v20, v21, v22, v23, u2, a14)
+if v24 ~= false then
+v24 = u2
+if v24 <= v15 then
+end
+end
+v15 = v1
+v24 = v15.DebugLogging
+if v24 == true then
+v24 = print
+v15 = "Penetrating data is nil or penetrationPower is lower than dist/penetrationCount is at 0. Ending cast and firing RayHit."
+v24(v15)
+end
+u8 = v24
+v15 = u7
+v24[v15] = v18
+v24 = a6
+v18 = a1
+local v25 = v7.Unit
+v24(v18, v25, v20, v21, v22, v23, v12, a8, a14)
+v24 = DbgVisualizeHit
+v15 = CFrame.new
+v15 = v15(v18)
+v18 = Color3.new
+v25 = 0.2
+local v26 = 0.5
+v18 = v18(v25, v20, v26)
+v24(v15, v18)
+return
+end
+end
+else if v6 ~= nil then
+v24 = Color3.new
+v15 = 0.4
+v18 = 0.05
+v25 = 0.05
+v6.Color3 = v24
+end
+local v27 = 0.2
+v18 = v18(v25, v27, v26)
+v24(v15, v18)
+v15 = v1
+v24 = v15.DebugLogging
+if v24 == true then
+v24 = print
+v15 = "Penetrating returned 'penetratedHumanoid' or 'penetratedObject'/TRUE to penetrate this hit. Processing..."
+v24(v15)
+end
+u8 = v24
+v15 = a15
+v24 = v15.penetrationType
+if v24 == "WallPenetration" then
+v24 = false
+v15 = a15
+if v15 ~= nil then
+v15 = a15
+v24 = v15.canPenetrateFunction
+v15 = a1
+v18 = v7.Unit
+v24 = v24(v15, v18, v25, v27, v26, v22, v23, a14)
+end
+v15 = a4
+v18 = u7
+if v15 == v18 then
+if v24 == "penetratedHumanoid" then
+v15 = v8.Parent
+v25 = "Humanoid"
+v15 = v15(v25)
+else if v15 then
+v18 = v8.Parent
+v27 = "Humanoid"
+v18 = v18(v27)
+v15 = v18.Health
+if v18 > v15 then
+end
+end
+v18 = v8.Parent
+v15 = v18.Parent
+v25 = "Humanoid"
+v15 = v15(v25)
+else if v15 then
+v25 = v8.Parent
+v18 = v25.Parent
+v27 = "Humanoid"
+v18 = v18(v27)
+v15 = v18.Health
+if v18 < v15 then
+end
+if v17 then
+v18 = v1
+v15 = v18.RayExit
+if v15 then
+v15 = a7
+v25 = v9 + v17 * v7.Unit
+v27 = -v17 * v7.Unit
+local v28 = v22
+local v29 = v23
+v15(v25, v27, v26, v22, v23, v29, v12, a14)
+v15 = DbgVisualizeHit
+v18 = CFrame.new
+v18 = v18(v25)
+v25 = Color3.fromRGB
+v25 = v25(v27, v26, v22)
+v15(v18, v25)
+end
+end
+v15 = v8.Parent
+v25 = "Humanoid"
+v15 = v15(v25)
+else if not v15 then
+v18 = v8.Parent
+v15 = v18.Parent
+v25 = "Humanoid"
+local L_Humanoid_1 = v15(v25)
+end
+v18(v25, v27)
+v18 = v25 - v27
+u1 = v25
+local v30 = " from the whitelist."
+local v31 = v27 .. v26 .. v30
+v26 = v1
+v27 = v26.DebugLogging
+if v27 == true then
+v27 = print
+v27(v26)
+else if v24 == "penetratedObject" then
+if v17 then
+v18 = v1
+L_Humanoid_1 = v18.RayExit
+if L_Humanoid_1 then
+L_Humanoid_1 = a7
+v31 = v9 + v17 * v7.Unit
+v27 = -v17 * v7.Unit
+L_Humanoid_1(v31, v27, v26, v30, v23, v29, v12, a14)
+L_Humanoid_1 = DbgVisualizeHit
+v18 = CFrame.new
+v18 = v18(v31)
+v31 = Color3.fromRGB
+v31 = v31(v27, v26, v30)
+L_Humanoid_1(v18, v31)
+end
+end
+v18 = u3
+L_Humanoid_1 = v18.removeObject
+v18 = a9
+L_Humanoid_1(v18, v31)
+v26 = u1
+v27 = v13 / v26
+v31 = v27 / 1.1
+L_Humanoid_1 = v18 - v31
+v31 = u1
+v18 = v31 * L_Humanoid_1
+u1 = v18
+v31 = "Whitelist cast detected, removed "
+v30 = tostring
+v26 = " from the whitelist."
+v18 = v31 .. v27 .. v26
+v27 = v1
+v31 = v27.DebugLogging
+if v31 == true then
+v31 = print
+v31(v27)
+end
+L_Humanoid_1 = a4
+v18 = u9
+if L_Humanoid_1 == v18 then
+if v24 == "penetratedHumanoid" then
+L_Humanoid_1 = v8.Parent
+v31 = "Humanoid"
+L_Humanoid_1 = L_Humanoid_1(v31)
+else if L_Humanoid_1 then
+v18 = v8.Parent
+v27 = "Humanoid"
+v18 = v18(v27)
+L_Humanoid_1 = v18.Health
+if v18 > L_Humanoid_1 then
+end
+end
+v18 = v8.Parent
+L_Humanoid_1 = v18.Parent
+v31 = "Humanoid"
+L_Humanoid_1 = L_Humanoid_1(v31)
+else if L_Humanoid_1 then
+v31 = v8.Parent
+v18 = v31.Parent
+v27 = "Humanoid"
+v18 = v18(v27)
+L_Humanoid_1 = v18.Health
+if v18 < L_Humanoid_1 then
+end
+if v17 then
+v18 = v1
+L_Humanoid_1 = v18.RayExit
+if L_Humanoid_1 then
+L_Humanoid_1 = a7
+v31 = v9 + v17 * v7.Unit
+v27 = -v17 * v7.Unit
+L_Humanoid_1(v31, v27, v26, v30, v23, v29, v12, a14)
+L_Humanoid_1 = DbgVisualizeHit
+v18 = CFrame.new
+v18 = v18(v31)
+v31 = Color3.fromRGB
+v31 = v31(v27, v26, v30)
+L_Humanoid_1(v18, v31)
+end
+end
+L_Humanoid_1 = v8.Parent
+v31 = "Humanoid"
+L_Humanoid_1 = L_Humanoid_1(v31)
+else if not L_Humanoid_1 then
+v18 = v8.Parent
+L_Humanoid_1 = v18.Parent
+v31 = "Humanoid"
+local L_Humanoid_2 = L_Humanoid_1(v31)
+end
+v18(v31, v27)
+v18 = v31 - v27
+u1 = v31
+local v32 = " to the blacklist."
+local v33 = v27 .. v26 .. v32
+v26 = v1
+v27 = v26.DebugLogging
+if v27 == true then
+v27 = print
+v27(v26)
+else if v24 == "penetratedObject" then
+if v17 then
+v18 = v1
+L_Humanoid_2 = v18.RayExit
+if L_Humanoid_2 then
+L_Humanoid_2 = a7
+v33 = v9 + v17 * v7.Unit
+v27 = -v17 * v7.Unit
+L_Humanoid_2(v33, v27, v26, v32, v23, v29, v12, a14)
+L_Humanoid_2 = DbgVisualizeHit
+v18 = CFrame.new
+v18 = v18(v33)
+v33 = Color3.fromRGB
+v33 = v33(v27, v26, v32)
+L_Humanoid_2(v18, v33)
+end
+end
+v18 = u3
+L_Humanoid_2 = v18.insert
+v18 = a9
+L_Humanoid_2(v18, v33)
+v26 = u1
+v27 = v13 / v26
+v33 = v27 / 1.1
+L_Humanoid_2 = v18 - v33
+v33 = u1
+v18 = v33 * L_Humanoid_2
+u1 = v18
+v33 = "Blacklist cast detected, added "
+v32 = tostring
+v26 = " to the blacklist."
+v18 = v33 .. v27 .. v26
+v27 = v1
+v33 = v27.DebugLogging
+if v33 == true then
+v33 = print
+v33(v27)
+end
+L_Humanoid_2 = u9
+a4 = L_Humanoid_2
+L_Humanoid_2 = a9
+L_Humanoid_2 = L_Humanoid_2()
+a9 = L_Humanoid_2
+if v24 == "penetratedHumanoid" then
+L_Humanoid_2 = v8.Parent
+v33 = "Humanoid"
+L_Humanoid_2 = L_Humanoid_2(v33)
+else if L_Humanoid_2 then
+local v34 = v8.Parent
+v27 = "Humanoid"
+v34 = v34(v27)
+L_Humanoid_2 = v34.Health
+if v34 > L_Humanoid_2 then
+end
+end
+v34 = v8.Parent
+L_Humanoid_2 = v34.Parent
+v33 = "Humanoid"
+L_Humanoid_2 = L_Humanoid_2(v33)
+else if L_Humanoid_2 then
+v33 = v8.Parent
+v34 = v33.Parent
+v27 = "Humanoid"
+v34 = v34(v27)
+L_Humanoid_2 = v34.Health
+if v34 < L_Humanoid_2 then
+end
+if v17 then
+v34 = v1
+L_Humanoid_2 = v34.RayExit
+if L_Humanoid_2 then
+L_Humanoid_2 = a7
+v33 = v9 + v17 * v7.Unit
+v27 = -v17 * v7.Unit
+L_Humanoid_2(v33, v27, v26, v32, v23, v29, v12, a14)
+L_Humanoid_2 = DbgVisualizeHit
+v34 = CFrame.new
+v34 = v34(v33)
+v33 = Color3.fromRGB
+v33 = v33(v27, v26, v32)
+L_Humanoid_2(v34, v33)
+end
+end
+L_Humanoid_2 = v8.Parent
+v33 = "Humanoid"
+L_Humanoid_2 = L_Humanoid_2(v33)
+else if not L_Humanoid_2 then
+v34 = v8.Parent
+L_Humanoid_2 = v34.Parent
+v33 = "Humanoid"
+local L_Humanoid_3 = L_Humanoid_2(v33)
+end
+v34(v33, v27)
+v34 = v33 - v27
+u1 = v33
+local v35 = " to the blacklist."
+v26 = v1
+v27 = v26.DebugLogging
+if v27 == true then
+v27 = print
+v27(v26)
+else if v24 == "penetratedObject" then
+if v17 then
+v34 = v1
+L_Humanoid_3 = v34.RayExit
+if L_Humanoid_3 then
+L_Humanoid_3 = a7
+v27 = -v17 * v7.Unit
+L_Humanoid_3(v33, v27, v26, v35, v23, v29, v12, a14)
+L_Humanoid_3 = DbgVisualizeHit
+v34 = CFrame.new
+v34 = v34(v33)
+L_Humanoid_3(v34, v33)
+end
+end
+v34 = u3
+L_Humanoid_3 = v34.insert
+v34 = a9
+L_Humanoid_3(v34, v33)
+v26 = u1
+v27 = v13 / v26
+L_Humanoid_3 = v34 - v33
+v34 = v33 * L_Humanoid_3
+u1 = v34
+v35 = tostring
+v26 = " to the blacklist."
+v34 = v33 .. v27 .. v26
+v27 = v1
+if v33 == true then
+v33(v27)
+end
+L_Humanoid_3 = a15
+v24 = L_Humanoid_3.penetrationType
+if v24 == "HumanoidPenetration" then
+v24 = a4
+L_Humanoid_3 = u7
+if v24 == L_Humanoid_3 then
+v24 = v8.Parent
+v24 = v24(v34)
+else if v24 then
+L_Humanoid_3 = v8.Parent
+L_Humanoid_3 = L_Humanoid_3(v33)
+v24 = L_Humanoid_3.Health
+if L_Humanoid_3 > v24 then
+end
+L_Humanoid_3 = v8.Parent
+v24 = L_Humanoid_3.Parent
+v24 = v24(v34)
+else if v24 then
+L_Humanoid_3 = v34.Parent
+L_Humanoid_3 = L_Humanoid_3(v33)
+v24 = L_Humanoid_3.Health
+if L_Humanoid_3 < v24 then
+end
+v24 = true
+u9 = v24
+v24 = v8.Parent
+v24 = v24(v34)
+else if not v24 then
+L_Humanoid_3 = v8.Parent
+v24 = L_Humanoid_3.Parent
+local L_Humanoid_4 = v24(v34)
+end
+L_Humanoid_3(v34, v33)
+v27 = " from the whitelist."
+local v36 = v34 .. v33 .. v27
+if v34 == true then
+v34(v33)
+end
+end
+L_Humanoid_4 = false
+u9 = L_Humanoid_4
+v36 = u3
+L_Humanoid_4 = v36.removeObject
+v36 = a9
+L_Humanoid_4(v36, v34)
+v36 = "Whitelist cast detected, removed "
+v27 = tostring
+L_Humanoid_4 = v36 .. v34 .. v33
+v36 = v34.DebugLogging
+if v36 == true then
+v36 = print
+v36(v34)
+end
+L_Humanoid_4 = a4
+v36 = u8
+if L_Humanoid_4 == v36 then
+L_Humanoid_4 = v8.Parent
+L_Humanoid_4 = L_Humanoid_4(v34)
+else if L_Humanoid_4 then
+v36 = v8.Parent
+v36 = v36(v33)
+L_Humanoid_4 = v36.Health
+if v36 > L_Humanoid_4 then
+end
+v36 = v8.Parent
+L_Humanoid_4 = v36.Parent
+L_Humanoid_4 = L_Humanoid_4(v34)
+else if L_Humanoid_4 then
+v36 = v34.Parent
+v36 = v36(v33)
+L_Humanoid_4 = v36.Health
+if v36 < L_Humanoid_4 then
+end
+L_Humanoid_4 = true
+u9 = L_Humanoid_4
+L_Humanoid_4 = v8.Parent
+L_Humanoid_4 = L_Humanoid_4(v34)
+else if not L_Humanoid_4 then
+v36 = v8.Parent
+L_Humanoid_4 = v36.Parent
+local L_Humanoid_5 = L_Humanoid_4(v34)
+end
+v36(v34, v33)
+local v37 = " to the blacklist."
+local v38 = v34 .. v33 .. v37
+if v34 == true then
+v34(v33)
+end
+end
+L_Humanoid_5 = false
+u9 = L_Humanoid_5
+v38 = u3
+L_Humanoid_5 = v38.insert
+v38 = a9
+L_Humanoid_5(v38, v34)
+v38 = "Blacklist cast detected, added "
+v37 = tostring
+L_Humanoid_5 = v38 .. v34 .. v33
+v38 = v34.DebugLogging
+if v38 == true then
+v38 = print
+v38(v34)
+end
+L_Humanoid_5 = u8
+a4 = L_Humanoid_5
+L_Humanoid_5 = a9
+L_Humanoid_5 = L_Humanoid_5()
+a9 = L_Humanoid_5
+L_Humanoid_5 = v8.Parent
+L_Humanoid_5 = L_Humanoid_5(v34)
+else if L_Humanoid_5 then
+v38 = v8.Parent
+v38 = v38(v33)
+L_Humanoid_5 = v38.Health
+if v38 > L_Humanoid_5 then
+end
+v38 = v8.Parent
+L_Humanoid_5 = v38.Parent
+L_Humanoid_5 = L_Humanoid_5(v34)
+else if L_Humanoid_5 then
+v38 = v34.Parent
+v38 = v38(v33)
+L_Humanoid_5 = v38.Health
+if v38 < L_Humanoid_5 then
+end
+L_Humanoid_5 = true
+u9 = L_Humanoid_5
+L_Humanoid_5 = v8.Parent
+L_Humanoid_5 = L_Humanoid_5(v34)
+else if not L_Humanoid_5 then
+v38 = v8.Parent
+L_Humanoid_5 = v38.Parent
+local L_Humanoid_6 = L_Humanoid_5(v34)
+end
+v38(v34, v33)
+local v39 = " to the blacklist."
+if v34 == true then
+v34(v33)
+end
+end
+L_Humanoid_6 = false
+u9 = L_Humanoid_6
+L_Humanoid_6 = v38.insert
+L_Humanoid_6(v38, v34)
+v39 = tostring
+L_Humanoid_6 = v38 .. v34 .. v33
+if v38 == true then
+v38(v34)
+end
+end
+end
+end
+end
+end
+end
+end
+end
+end
+end
+end
+end
+end
+end
+end
+local v40 = v38.DebugLogging
+if v40 == true then
+v40 = print
+v40(v38)
+end
+v40(v38, v34)
+ = v9
+v40 = a15
+if v40 ~= nil then
+v40 = v38.penetrationType
+else if v40 ~= "WallPenetration" then
+v40 = u9or v40 
+if v8 then
+v40 = v38 - 1
+if not v40 then
+end
+end
+u2 = v40
+local v41 = v38 .. v34 .. v33
+if v38 == true then
+v38(v34)
+return
+v41 = v38.DebugLogging
+if v41 == true then
+v41 = print
+v41(v38)
+return
+end
+v41 = v38 .. v34 .. v33
+if v38 == true then
+v38(v34)
+end
+if v38 == true then
+v38(v34)
+end
+end
+end
+end
+return
+end
+end
+ = v9
+ = v6
+if u4 < v6 then
+v6[u7] = true
+v6(a1, v17, v16, v28, v29, v13, v41, v38, v34)
+end
+end)
+u7.Update = (function(a1) -- Update
+u10(a1)
+end)
+else if S_RunService_1:IsClient() then
+spawn((function()
+u4[u7] = true
+end))
+end
+coroutine.resume(coroutine.create((function()
+u4[u7] = true
+end)))
+end)
+local u11 = (function(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14) -- BaseFireMethod
+(typeof() ~= "Vector3", "Invalid type for parameter '%s' (Expected %s, got %s)":format("origin", "Vector3", typeof()))
+(typeof() ~= "Vector3", "Invalid type for parameter '%s' (Expected %s, got %s)":format("directionWithMagnitude", "Vector3", typeof())) = true
+local v1 = typeof()
+if v1 ~= "Vector3" then
+v1 = typeof
+end
+(, v1)
+if a5 == nil then
+end
+(, v1)
+if a6 == nil then
+end
+(, v1)
+if a7 == nil then
+end
+(, v1)
+if a8 == nil then
+end
+(, v1)
+if a12 == nil then
+end
+(, v1)
+if a14 == nil then
+end
+v1 = v1("penetrationData", "table", typeof())
+(, v1)
+local v2 = u6
+if a12 ~= nil then
+if a13 then
+v2 = u7
+if a14 then
+if a14.penetrationType ~= "WallPenetration" then
+v1 = u8
+if not v1 then
+end
+v1 = u9
+else if not v1 then
+v1 = u9
+end
+end
+end
+v1(a2, a3, a4, v2, a1.LengthChanged, a1.RayHit, a1.RayExited, a5, , a7, a8, a9, a10, a11, a14)
+end)
+v1.new = (function() -- new
+return setmetatable({LengthChanged = u2:CreateNewSignal(), RayHit = u2:CreateNewSignal(), RayExited = u2:CreateNewSignal()}, v1)
+end)
+v1.Fire = (function(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12) -- Fire
+(getmetatable() == v1, "Cannot statically invoke method '%s' - It is an instance method. Call it on an instance of this class created via %s":format("Fire", "FastCast.new()"))
+u11(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, nil, nil, a12)
+end)
+v1.FireWithWhitelist = (function(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12) -- FireWithWhitelist
+(getmetatable() == v1, "Cannot statically invoke method '%s' - It is an instance method. Call it on an instance of this class created via %s":format("FireWithWhitelist", "FastCast.new()"))
+u11(a1, a2, a3, a4, a6, nil, a7, a8, a9, a10, a11, a5, true, a12)
+end)
+v1.FireWithBlacklist = (function(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12) -- FireWithBlacklist
+(getmetatable() == v1, "Cannot statically invoke method '%s' - It is an instance method. Call it on an instance of this class created via %s":format("FireWithBlacklist", "FastCast.new()"))
+u11(a1, a2, a3, a4, a6, nil, a7, a8, a9, a10, a11, a5, false, a12)
+end)
+S_RunService_1.Heartbeat:Connect((function(a1)
+for v1,v2 in next, u4 do
+if u5[v1] then
+u5[v1] = nil
+u4[v1] = nil
+continue
+end
+v1.Update(a1)
+end
+end))
+return v1
