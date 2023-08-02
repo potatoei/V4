@@ -1,0 +1,56 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Modules.FastCastRedux.Table
+local u1 = Random.new()
+local u2 = table
+local u3 = {}
+u3.contains = (function(a1, a2)
+return u3.indexOf(a1, a2) ~= nil
+end)
+u3.indexOf = (function(a1, a2)
+if table.find(a1, a2) then
+return table.find(a1, a2)
+end
+return u3.keyOf(a1, a2)
+end)
+u3.keyOf = (function(a1, a2)
+local v1, v2, v3 = pairs(a1)
+for v4,v5 in v1 do
+if v5 == a2 then
+return v4
+end
+end
+return v1
+end)
+u3.skip = (function(a1, a2)
+return table.move(a1, a2 + 1, #a1, 1, table.create(#a1 - a2))
+end)
+u3.take = (function(a1, a2)
+return table.move(a1, 1, a2, 1, table.create(a2))
+end)
+u3.range = (function(a1, a2, a3)
+return table.move(a1, a2, a3, 1, table.create(a3 - a2 + 1))
+end)
+u3.skipAndTake = (function(a1, a2, a3)
+return table.move(a1, a2 + 1, a2 + a3, 1, table.create(a3))
+end)
+u3.random = (function(a1)
+return a1[u1:NextInteger(1, #a1)]
+end)
+u3.join = (function(a1, a2)
+local v1 = table.create(#a1 + #a2)
+return table.move(a2, 1, #a2, #a1 + 1, v1)
+end)
+u3.removeObject = (function(a1, a2)
+if u3.indexOf(a1, a2) then
+local v1 = u3.indexOf(a1, a2)
+table.remove(a1, v1)
+end
+end)
+return setmetatable({}, {__index = (function(a1, a2) -- __index
+if u3[a2] ~= nil then
+return u3[a2]
+end
+return u2[a2]
+end), __newindex = (function(a1, a2, a3) -- __newindex
+error("Add new table entries by editing the Module itself.")
+end)})
