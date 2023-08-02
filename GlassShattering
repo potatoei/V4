@@ -1,0 +1,131 @@
+-- Decompiled by Electron BETA [ Made By (Co) ]
+-- Path: ReplicatedStorage.Modules.GlassShattering
+local v1 = {}
+createTriangle = (function(a1, a2, a3, a4, a5) -- createTriangle
+local v1 = a1 - a2
+v1.longest = a1 - a3
+local v2 = a2 - a3
+v1.other = v2
+v1.position = a3
+v2.longest = a2 - a1
+v2.other = a3 - a1
+v2.position = a1
+local v3 = {{longest = a3 - a2, other = v1, position = a2}, v1, v2}
+table.sort(v1, v2)
+local v4 = v3[1]
+local v5 = v2(v4.other.magnitude * math.cos(), v4.other.magnitude * math.sin())
+local v6 = Vector2.new(v4.longest.magnitude - v5.x, v5.y)
+local v7 = v4.position + v4.other / 2
+local v8 = v4.position + v4.longest + v4.other - v4.longest / 2
+local v9 = v4.longest:Cross(v4.other).unit
+local v10 = v9:Cross(v4.longest).unit
+local v11 = v4.longest.unit
+local v12 = a4:Clone()
+local v13 = a4:Clone()
+v12.Size = (a5, v5.y, v5.x)
+v13.Size = (a5, v5.y, v5.x)(a5, v6.y, v6.x)
+v12.CFrame = CFrame.new(v7.x, v7.y, v7.z, -v9.x, v10.x, v11.x, -v9.y, v10.y, v11.y, -v9.z, v10.z, v11.z)
+v13.CFrame = CFrame.new(v8.x, v8.y, v8.z, v9.x, v10.x, -v11.x, v9.y, v10.y, -v11.y, v9.z, v10.z, -v11.z)
+v12.Anchored = false
+v13.Anchored = false
+return {v12, v13}
+end)
+getThinAxis = (function(a1) -- getThinAxis
+local v1 = {}
+if a1.Size.X(v1[1], v1[2], v1[3]) == v1[1] then
+else if a1.Size.X(v1[1], v1[2], v1[3]) == v1[2] then
+else if a1.Size.X(v1[1], v1[2], v1[3]) == v1[3] then
+end
+local v2 = 3
+local v3 = a1.Size.X(v1[1], v1[2], v1[3])
+return v2, v3
+end)
+getPoints = (function(a1) -- getPoints
+local v1 = a1.Size.Y / 2
+local v2 = CFrame.new(0, v1, 0)
+local v3 = a1.Size.X / 2
+local v4 = a1.Size.Z / 2
+local v5 = v2(0, 0, v4)
+if getThinAxis(a1) == 1 then
+v5 = {}
+else if a1:IsA("WedgePart") then
+table.remove(v5, 1)
+end
+return v5
+end
+else if getThinAxis(a1) == 2 then
+return v5
+else if v5 == 3 then
+return
+end
+return v5
+end)
+getShatterPoint = (function(a1, a2) -- getShatterPoint
+local v1, v2 = getThinAxis(a1)
+local v3 = nil
+if v1 == 1 then
+v3 = a1.CFrame.rightVector
+end
+else if v1 == 2 then
+v3 = a1.CFrame.upVector
+end
+else if v1 == 3 then
+v3 = a1.CFrame.lookVector
+end
+if (function(a1, a2)
+local v1 = CFrame.new(a2, a2 + a1).p - a1.CFrame.p
+local v2 = CFrame.new(a2, a2 + a1 * -1).p - a1.CFrame.p
+if v1.X ^ 2 + v1.Y ^ 2 + v1.Z ^ 2 < v2.X ^ 2 + v2.Y ^ 2 + v2.Z ^ 2 then
+return false
+end
+return true
+end)(v3, v2) then
+local v4 = v3 * -1
+end
+return CFrame.new(a2, a2 + v4) * CFrame.new(0, 0, -v2 / 2).p, v4
+end)
+v1.shatter = (function(a1, a2, a3, a4) -- shatter
+local v1 = getPoints(a2)
+local v2, v3 = getShatterPoint(a2, a3)
+local v4 = v2(v3)
+v4.Reflectance = v3
+v4.Transparency = v3
+v4.TopSurface = v3
+v4.BottomSurface = v3
+v4.FrontSurface = v3
+v4.BackSurface = v3
+v4.LeftSurface = v3
+v4.RightSurface = v3
+v4.Color = v3
+v4.Material = v3
+local v5, v6 = v3(a2)
+local v7 = nil
+local v8 = #v1
+if v8 == 4 then
+v8 = {}
+local v9 = v2
+end
+local v10 = {}
+for v11 = 1, #v7 do
+table.insert(v10, createTriangle(v7[v11][1].p, v7[v11][2].p, v7[v11][3], v4, v6))
+end
+a2.CanCollide = false
+a2.Transparency = 1
+for v12 = v11, #v10 do
+for v13 = 1, #v10[v12] do
+local u14 = v10[v12][v13]
+u14.Name = "_shatter"
+u14.Parent = game.Workspace
+u14.Velocity = a4
+u14.CanCollide = false
+u14.Size = false("0.4, 1.2, 1.2")
+u14.Massless = true
+delay(10, (function()
+if u14.Parent then
+u14:Destroy()
+end
+end))
+end
+end
+end)
+return v1
